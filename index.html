@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NUET Mock Test Platform</title>
+    
+    <!-- Подключаем стили Tailwind -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: { navy: '#1e3a8a', cobalt: '#2563eb', ice: '#f0f9ff' }
+                }
+            }
+        }
+    </script>
+
+    <!-- Подключаем KaTeX для красивых математических формул -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+</head>
+<body class="bg-ice text-navy font-sans antialiased">
+    <div id="app" class="min-h-screen flex flex-col"></div>
+
+    <script>
+        // ==========================================
+        // БАЗА ВОПРОСОВ (Добавляйте свои сюда)
+        // ==========================================
+        const examData = {
+            math: {
+                title: "Mathematics",
+                duration: 60, // минут
+                questions: [
+                    {
+                        id: "m1",
+                        text: "Simplify: $3 \\times [4 \\times (7^2 - 5 \\times 6) + 2^6 \\div 8] - 11$",
+                        options: [
+                            { id: "a", text: "252" },
+                            { id: "b", text: "231" },
+                            { id: "c", text: "241" },
+                            { id: "d", text: "263" }
+                        ],
+                        correct: "c",
+                        explanation: "$7^2 = 49$ and $5 \\times 6 = 30$, so the bracket (...) = 19. Then $4 \\times 19 = 76$. $2^6 \\div 8 = 64 \\div 8 = 8$. Inside [ ]: $76 + 8 = 84$. Then $3 \\times 84 = 252$ and $252 - 11 = 241$.",
+                        points: 2
+                    },
+                    {
+                        id: "m2",
+                        text: "Find the turning point of the parabola $f(x) = 2x^2 - 12x + 5$.",
+                        options: [
+                            { id: "a", text: "(3, -13)" },
+                            { id: "b", text: "(-3, -13)" },
+                            { id: "c", text: "(3, 13)" },
+                            { id: "d", text: "(-3, 59)" }
+                        ],
+                        correct: "a",
+                        explanation: "x-coordinate: $x = -b/(2a) = 12/4 = 3$. Then $f(3) = 2(9) - 36 + 5 = -13$. Turning point (3, -13).",
+                        points: 3
+                    }
+                ]
+            },
+            ct: {
+                title: "Critical Thinking",
+                duration: 90, // минут
+                questions: [
+                    {
+                        id: "ct1",
+                        text: "Every motorist pays the same amount for road tax, regardless of how much they use the roads: someone who covers as little as 1 000 miles pays the same as someone who covers 20 000. This is unfair. Road tax should be scrapped and the money raised by an increase in the tax on car fuel.\n\nWhich of the following best illustrates the principle underlying the argument above?",
+                        options: [
+                            { id: "A", text: "People should receive free medical treatment only if they cannot afford to pay for it." },
+                            { id: "B", text: "People who travel to work every day by train should pay a lower fare than those who travel only occasionally." },
+                            { id: "D", text: "Television channels should be paid for by subscription so that only those people who watch them should be made to pay." }
+                        ],
+                        correct: "D",
+                        explanation: "The principle is that the amount users pay for a service should be based on the amount of use they make of it.",
+                        points: 1
+                    }
+                ]
+            }
+        };
+
+        // ==========================================
+        // ЛОГИКА ПРИЛОЖЕНИЯ
+        // ==========================================
+        let state = {
+            view: 'home', // 'home', 'exam', 'results'
+            subject: null,
+            currentIndex: 0,
+            answers: {},
+            timeLeft: 0,
+            timerId: null
+        };
+
+        const app = document.getElementById('app');
+
+        function renderMath() {
+            if (window.renderMathInElement) {
+                window.renderMathInElement(app, {
+                    delimiters: [
+                        {left: '$$', right: '$$', display: true},
+                        {left: '$', right: '$', display: false}
+                    ],
+                    throwOnError: false
+                });
+            }
+        }
+
+        function renderHome() {
+            app.innerHTML = `
+                <div class="max-w-4xl mx-auto p-8 w-full">
+                    <h1 class="text-4xl font-bold text-navy mb-2">NUET MOCK TEST</h1>
+                    <p class="text-cobalt text-xl mb-10">Practice. Improve. Succeed.</p>
+                    
+                    <div class="grid md:grid-cols-2 gap-8">
+                        <div class="bg-white p-6 rounded-2xl shadow-lg border-t-4 border-navy flex flex-col">
+                            <h2 class="text-2xl font-bold text-navy mb-4">Mathematics</h2>
+                            <p class="text-gray-600 mb-6 flex-grow">Evaluate your problem-solving skills. No calculators allowed.</p>
+                            <button onclick="startExam('math')" class="bg-navy text-white py-3 rounded-lg hover:bg-cobalt transition font-bold">Start Math Test</button>
+                        </div>
+                        <div class="bg-white p-6 rounded-2xl shadow-lg border-t-4 border-cobalt flex flex-col">
+                            <h2 class="text-2xl font-bold text-cobalt mb-4">Critical Thinking</h2>
+                            <p class="text-gray-600 mb-6 flex-grow">Analyze arguments, find flaws, and identify assumptions.</p>
+                            <button onclick="startExam('ct')" class="bg-cobalt text-white py-3 rounded-lg hover:bg-navy transition font-bold">Start CT Test</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function startExam(subject) {
+            state.subject = subject;
+            state.view = 'exam';
+            state.currentIndex = 0;
+            state.answers = {};
+            state.timeLeft = examData[subject].duration * 60;
+            
+            clearInterval(state.timerId);
+            state.timerId = setInterval(() => {
+                state.timeLeft--;
+                if (state.timeLeft <= 0) {
+                    submitExam();
+                } else {
+                    document.getElementById('timer-display').innerText = formatTime(state.timeLeft);
+                }
+            }, 1000);
+
+            renderExam();
+        }
+
+        function selectAnswer(qId, aId) {
+            state.answers[qId] = aId;
+            renderExam(); // Перерисовываем, чтобы показать выбранный вариант
+        }
+
+        function renderExam() {
+            const data = examData[state.subject];
+            const q = data.questions[state.currentIndex];
+            const answeredCount = Object.keys(state.answers).length;
+
+            let optionsHtml = q.options.map(opt => {
+                const isSelected = state.answers[q.id] === opt.id;
+                return `
+                    <button onclick="selectAnswer('${q.id}', '${opt.id}')" 
+                        class="w-full text-left p-4 rounded-lg border-2 transition ${isSelected ? 'border-cobalt bg-blue-50' : 'border-gray-200 hover:border-gray-300'}">
+                        <span class="font-bold mr-3 uppercase">${opt.id}.</span> ${opt.text}
+                    </button>
+                `;
+            }).join('');
+
+            let navHtml = data.questions.map((_, idx) => {
+                const hasAnswer = state.answers[data.questions[idx].id];
+                const isCurrent = idx === state.currentIndex;
+                return `
+                    <button onclick="state.currentIndex = ${idx}; renderExam();" 
+                        class="p-2 rounded font-semibold text-sm ${isCurrent ? 'ring-2 ring-cobalt' : ''} ${hasAnswer ? 'bg-cobalt text-white' : 'bg-gray-100 text-gray-600'}">
+                        ${idx + 1}
+                    </button>
+                `;
+            }).join('');
+
+            app.innerHTML = `
+                <div class="bg-navy text-white p-4 flex justify-between items-center shadow-md">
+                    <div class="font-bold text-lg">${data.title} Exam</div>
+                    <div class="flex items-center gap-4">
+                        <div id="timer-display" class="font-mono text-xl">${formatTime(state.timeLeft)}</div>
+                        <button onclick="if(confirm('Submit your test?')) submitExam();" class="bg-white text-navy px-4 py-1 rounded-md font-bold hover:bg-gray-200">Submit</button>
+                    </div>
+                </div>
+
+                <div class="flex-grow max-w-5xl mx-auto w-full p-4 flex flex-col md:flex-row gap-6 mt-6">
+                    <div class="md:w-3/4 bg-white p-8 rounded-xl shadow-sm border border-gray-100">
+                        <h2 class="text-xl font-bold text-navy mb-4">Question ${state.currentIndex + 1} of ${data.questions.length}</h2>
+                        <div class="text-lg mb-8 whitespace-pre-wrap">${q.text}</div>
+                        <div class="space-y-3">${optionsHtml}</div>
+                        
+                        <div class="flex justify-between mt-10">
+                            <button onclick="if(state.currentIndex > 0) { state.currentIndex--; renderExam(); }" class="font-bold text-cobalt ${state.currentIndex === 0 ? 'opacity-50 cursor-not-allowed' : ''}">Previous</button>
+                            <button onclick="if(state.currentIndex < ${data.questions.length - 1}) { state.currentIndex++; renderExam(); }" class="font-bold text-cobalt ${state.currentIndex === data.questions.length - 1 ? 'opacity-50 cursor-not-allowed' : ''}">Next</button>
+                        </div>
+                    </div>
+
+                    <div class="md:w-1/4 bg-white p-4 rounded-xl shadow-sm border border-gray-100 h-fit">
+                        <h3 class="font-bold text-navy mb-3">Progress: ${answeredCount}/${data.questions.length}</h3>
+                        <div class="grid grid-cols-5 gap-2">${navHtml}</div>
+                    </div>
+                </div>
+            `;
+            setTimeout(renderMath, 0);
+        }
+
+        function submitExam() {
+            clearInterval(state.timerId);
+            state.view = 'results';
+            renderResults();
+        }
+
+        function renderResults() {
+            const data = examData[state.subject];
+            let score = 0;
+            let totalPoints = 0;
+
+            let reviewHtml = data.questions.map((q, idx) => {
+                totalPoints += q.points;
+                const isCorrect = state.answers[q.id] === q.correct;
+                if (isCorrect) score += q.points;
+
+                const myAnswer = q.options.find(o => o.id === state.answers[q.id]);
+                const correctOption = q.options.find(o => o.id === q.correct);
+
+                return `
+                    <div class="p-6 rounded-xl border-l-4 mb-6 ${isCorrect ? 'border-green-500 bg-green-50' : 'border-red-500 bg-red-50'}">
+                        <h4 class="font-bold text-lg mb-4">Question ${idx + 1} ${isCorrect ? '✅' : '❌'}</h4>
+                        <div class="mb-4 whitespace-pre-wrap">${q.text}</div>
+                        <div class="mb-2"><strong>Your answer:</strong> ${myAnswer ? myAnswer.text : '<i>Not answered</i>'}</div>
+                        ${!isCorrect ? `<div class="mb-4 text-green-700"><strong>Correct answer:</strong> ${correctOption.text}</div>` : ''}
+                        <div class="mt-4 p-4 bg-white rounded-lg border border-gray-200">
+                            <p class="font-bold text-sm text-cobalt mb-1">EXPLANATION:</p>
+                            <p class="text-sm whitespace-pre-wrap">${q.explanation}</p>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            const percentage = Math.round((score / totalPoints) * 100);
+
+            app.innerHTML = `
+                <div class="max-w-4xl mx-auto bg-white p-8 rounded-2xl shadow-lg mt-8 mb-8 border-t-8 border-navy">
+                    <h1 class="text-3xl font-bold text-navy mb-6">Test Results: ${data.title}</h1>
+                    <div class="flex items-center gap-8 mb-10 p-6 bg-blue-50 rounded-xl">
+                        <div class="text-6xl font-bold text-cobalt">${percentage}%</div>
+                        <div>
+                            <p class="text-lg">Points: <strong>${score} / ${totalPoints}</strong></p>
+                            <p class="text-lg">Answered: <strong>${Object.keys(state.answers).length} / ${data.questions.length}</strong></p>
+                        </div>
+                    </div>
+                    <h3 class="text-2xl font-bold text-navy mb-6">Detailed Review</h3>
+                    <div>${reviewHtml}</div>
+                    <button onclick="state.view = 'home'; renderHome();" class="mt-8 bg-navy text-white px-6 py-3 rounded-lg font-bold hover:bg-cobalt">Back to Home</button>
+                </div>
+            `;
+            setTimeout(renderMath, 0);
+        }
+
+        function formatTime(seconds) {
+            const m = Math.floor(seconds / 60);
+            const s = seconds % 60;
+            return `${m}:${s < 10 ? '0' : ''}${s}`;
+        }
+
+        // Запуск
+        renderHome();
+    </script>
+</body>
+</html>
