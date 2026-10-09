@@ -30,9 +30,9 @@
         // БАЗА ВОПРОСОВ (Добавляйте свои сюда)
         // ==========================================
         const examData = {
-            math: {
+math: {
                 title: "Mathematics",
-                duration: 60, // минут
+                duration: 60, // таймер на 60 минут
                 questions: [
                     {
                         id: "m1",
@@ -44,7 +44,7 @@
                             { id: "d", text: "263" }
                         ],
                         correct: "c",
-                        explanation: "$7^2 = 49$ and $5 \\times 6 = 30$, so the bracket (...) = 19. Then $4 \\times 19 = 76$. $2^6 \\div 8 = 64 \\div 8 = 8$. Inside [ ]: $76 + 8 = 84$. Then $3 \\times 84 = 252$ and $252 - 11 = 241$.",
+                        explanation: "$7^2 = 49$ and $5 \\times 6 = 30$, so the bracket (...) = 19. Then $4 \\times 19 = 76$. $2^6 \\div 8 = 64 \\div 8 = 8$. Inside [ ]: $76 + 8 = 84$. Then $3 \\times 84 = 252$ and $252 - 11 = 241$.\nCommon mistake: forgetting to subtract 11.",
                         points: 2
                     },
                     {
@@ -57,8 +57,372 @@
                             { id: "d", text: "(-3, 59)" }
                         ],
                         correct: "a",
-                        explanation: "x-coordinate: $x = -b/(2a) = 12/4 = 3$. Then $f(3) = 2(9) - 36 + 5 = -13$. Turning point (3, -13).",
+                        explanation: "x-coordinate: $x = -b/(2a) = 12/4 = 3$. Then $f(3) = 2(9) - 36 + 5 = -13$. Turning point (3, -13).\nCommon mistake: sign of x ($-b/2a$ with $b = -12$ gives $+3$).",
                         points: 3
+                    },
+                    {
+                        id: "m3",
+                        text: "Solve the inequality: $(1/3)(2 + 6t) \\ge 4(1/2 - t/4) - (1/6)(3 + 12t)$",
+                        options: [
+                            { id: "a", text: "$(-\\infty, 1/6]$" },
+                            { id: "b", text: "$[1/6, +\\infty)$" },
+                            { id: "c", text: "$[5/6, +\\infty)$" },
+                            { id: "d", text: "$[-1/6, +\\infty)$" }
+                        ],
+                        correct: "b",
+                        explanation: "LHS = $2/3 + 2t$. RHS = $2 - t - 1/2 - 2t = 3/2 - 3t$.\nSo $2/3 + 2t \\ge 3/2 - 3t \\rightarrow 5t \\ge 3/2 - 2/3 = 5/6 \\rightarrow t \\ge 1/6$. The inequality sign does not flip because we divided by +5.",
+                        points: 3
+                    },
+                    {
+                        id: "m4",
+                        text: "The roots of the equation $3x^2 - 10x + c = 0$ differ by 2. Find the value of c.",
+                        options: [
+                            { id: "a", text: "16/9" },
+                            { id: "b", text: "8/3" },
+                            { id: "c", text: "20/9" },
+                            { id: "d", text: "16/3" }
+                        ],
+                        correct: "d",
+                        explanation: "Let the roots be $\\alpha$ and $\\beta$. Sum $\\alpha + \\beta = 10/3$, difference $\\alpha - \\beta = 2$. Then $\\alpha = (10/3 + 2)/2 = 8/3$ and $\\beta = (10/3 - 2)/2 = 2/3$. Product $\\alpha\\beta = 16/9 = c/3$, so $c = 16/3$.",
+                        points: 4
+                    },
+                    {
+                        id: "m5",
+                        text: "How much water must be added to 300 ml of a solution containing 40% acid to change the concentration of acid to 25%?",
+                        options: [
+                            { id: "a", text: "150 ml" },
+                            { id: "b", text: "180 ml" },
+                            { id: "c", text: "200 ml" },
+                            { id: "d", text: "225 ml" }
+                        ],
+                        correct: "b",
+                        explanation: "Acid in the solution: $0.4 \\times 300 = 120$ ml. This must be 25% of the new total, so total = $120 / 0.25 = 480$ ml. Water to add = $480 - 300 = 180$ ml.",
+                        points: 4
+                    },
+                    {
+                        id: "m6",
+                        text: "The tenth term of an arithmetic sequence is $29/4$ and the second term is $5/4$. Find the first term.",
+                        options: [
+                            { id: "a", text: "1/2" },
+                            { id: "b", text: "1/4" },
+                            { id: "c", text: "3/4" },
+                            { id: "d", text: "1" }
+                        ],
+                        correct: "a",
+                        explanation: "$a_{10} - a_2 = 8d = 29/4 - 5/4 = 6$, so $d = 3/4$. Then $a_1 = a_2 - d = 5/4 - 3/4 = 1/2$.",
+                        points: 4
+                    },
+                    {
+                        id: "m7",
+                        text: "Maya is producing a scale drawing of a swimming pool. The pool's dimensions are 3 m by 8 m. On her drawing the pool measures 12 cm by 32 cm. What scale should she include in her plan?",
+                        options: [
+                            { id: "a", text: "1:20" },
+                            { id: "b", text: "1:25" },
+                            { id: "c", text: "1:30" },
+                            { id: "d", text: "1:40" }
+                        ],
+                        correct: "b",
+                        explanation: "Convert to the same unit: 3 m = 300 cm. Scale = $12 : 300 = 1 : 25$ (check: $32$ cm $\\times 25 = 800$ cm = $8$ m).",
+                        points: 2
+                    },
+                    {
+                        id: "m8",
+                        text: "ABCD is a rectangle with AB = 28 cm and BC = 14 cm. Semicircles are drawn with DC, BC and AD as diameters, as shown (the semicircle on DC is drawn inside the rectangle; the semicircles on BC and AD are outside). Find the area of the shaded region. Take $\\pi = 22/7$.\n<img src=\"q8.png\" alt=\"Diagram\" class=\"my-4 max-w-full rounded shadow-sm\">",
+                        options: [
+                            { id: "a", text: "154 cm²" },
+                            { id: "b", text: "238 cm²" },
+                            { id: "c", text: "308 cm²" },
+                            { id: "d", text: "266 cm²" }
+                        ],
+                        correct: "b",
+                        explanation: "Rectangle: $28 \\times 14 = 392$. Inner semicircle (diameter 28, r = 14): $1/2 \\times (22/7) \\times 14^2 = 308$. Two outer semicircles (diameter 14, r = 7) together make one full circle: $(22/7) \\times 7^2 = 154$.\nShaded = $392 - 308 + 154 = 238$ cm².",
+                        points: 5
+                    },
+                    {
+                        id: "m9",
+                        text: "Find the area of a parallelogram with vertices at (-5, -3), (-2, 5), (4, 5) and (1, -3).",
+                        options: [
+                            { id: "a", text: "48" },
+                            { id: "b", text: "54" },
+                            { id: "c", text: "40" },
+                            { id: "d", text: "36" }
+                        ],
+                        correct: "a",
+                        explanation: "Two sides are horizontal: the bottom side from x = -5 to x = 1 has length 6. The vertical distance between y = -3 and y = 5 is 8. Area = base $\\times$ height = $6 \\times 8 = 48$.",
+                        points: 3
+                    },
+                    {
+                        id: "m10",
+                        text: "x is inversely proportional to the square root of y. When x = 2, y = 64. What is the value of y when x = 256?",
+                        options: [
+                            { id: "a", text: "$2^{-4}$" },
+                            { id: "b", text: "$2^{-16}$" },
+                            { id: "c", text: "$2^8$" },
+                            { id: "d", text: "$2^{-8}$" }
+                        ],
+                        correct: "d",
+                        explanation: "$x = k/\\sqrt{y}$, so $k = x\\sqrt{y} = 2 \\times 8 = 16$. For $x = 256$: $\\sqrt{y} = 16/256 = 1/16 = 2^{-4}$, so $y = (2^{-4})^2 = 2^{-8}$.",
+                        points: 4
+                    },
+                    {
+                        id: "m11",
+                        text: "Rearrange to make x the subject: $(5x + 3)/(2x - 1) = 4y^2 + 1$",
+                        options: [
+                            { id: "a", text: "$(4y^2 - 2)/(8y^2 + 7)$" },
+                            { id: "b", text: "$(4y^2 + 4)/(3 - 8y^2)$" },
+                            { id: "c", text: "$(4y^2 + 4)/(8y^2 - 3)$" },
+                            { id: "d", text: "$(4y^2 + 4)/(8y^2 + 7)$" }
+                        ],
+                        correct: "c",
+                        explanation: "Let $k = 4y^2 + 1$. Then $5x + 3 = k(2x - 1) = 2kx - k$. Collect x: $5x - 2kx = -k - 3 \\rightarrow x(5 - 2k) = -(k + 3) \\rightarrow x = (k + 3)/(2k - 5)$. Substitute k: numerator $4y^2 + 4$; denominator $2(4y^2 + 1) - 5 = 8y^2 - 3$.",
+                        points: 5
+                    },
+                    {
+                        id: "m12",
+                        text: "At a cinema, drinks are sold in regular and large cups. The cups are mathematically similar and the ratio of their depths is 2 : 3. The volume of a regular cup is 240 cm³. What is the volume of the large cup?",
+                        options: [
+                            { id: "a", text: "360 cm³" },
+                            { id: "b", text: "540 cm³" },
+                            { id: "c", text: "810 cm³" },
+                            { id: "d", text: "900 cm³" }
+                        ],
+                        correct: "c",
+                        explanation: "For similar solids, volume ratio = (length ratio)³ = $2^3 : 3^3 = 8 : 27$. Large cup = $240 \\times 27/8 = 810$ cm³.",
+                        points: 4
+                    },
+                    {
+                        id: "m13",
+                        text: "Q is 8 km from P on a bearing of 040°. R is 8 km from Q on a bearing of 130°. What is the bearing of P from R?",
+                        options: [
+                            { id: "a", text: "265°" },
+                            { id: "b", text: "275°" },
+                            { id: "c", text: "085°" },
+                            { id: "d", text: "225°" }
+                        ],
+                        correct: "a",
+                        explanation: "Back bearing from Q to P = $040° + 180° = 220°$. Angle PQR = $220° - 130° = 90°$. Since PQ = QR = 8, triangle PQR is an isosceles right triangle, so $\\angle QRP = 45°$. Bearing of Q from R = $130° + 180° = 310°$. P lies 45° anticlockwise from RQ, so bearing = $310° - 45° = 265°$.",
+                        points: 5
+                    },
+                    {
+                        id: "m14",
+                        text: "PQR is an isosceles triangle with PQ = PR = 7 cm and QR = 10 cm. What is the value of tan of angle PQR?",
+                        options: [
+                            { id: "a", text: "$5/(2\\sqrt{6})$" },
+                            { id: "b", text: "$2\\sqrt{6}/5$" },
+                            { id: "c", text: "24/5" },
+                            { id: "d", text: "$\\sqrt{6}/5$" }
+                        ],
+                        correct: "b",
+                        explanation: "Drop the perpendicular from P to the midpoint M of QR. QM = 5. PM = $\\sqrt{7^2 - 5^2} = \\sqrt{24} = 2\\sqrt{6}$. $\\tan(PQR) = PM/QM = 2\\sqrt{6}/5$.",
+                        points: 4
+                    },
+                    {
+                        id: "m15",
+                        text: "OABC is a trapezium with OC parallel to AB. OA = 6a, AB = 4b and OC = 12b. Point E is the midpoint of AC. Write the vector BE in terms of a and b.\n<img src=\"q15.png\" alt=\"Diagram\" class=\"my-4 max-w-full rounded shadow-sm\">",
+                        options: [
+                            { id: "a", text: "$3a + 2b$" },
+                            { id: "b", text: "$3a - 2b$" },
+                            { id: "c", text: "$-3a - 2b$" },
+                            { id: "d", text: "$2b - 3a$" }
+                        ],
+                        correct: "d",
+                        explanation: "$AC = AO + OC = -6a + 12b$. $AE = \\frac{1}{2} AC = -3a + 6b$. $BA = -4b$. $BE = BA + AE = -4b - 3a + 6b = 2b - 3a$.",
+                        points: 5
+                    },
+                    {
+                        id: "m16",
+                        text: "A city football club collected money for charity during a year. The total was divided among three charities A, B and C in the ratio 1 : 2/3 : 5/6. Charity C received £2 500. What was the total amount collected?",
+                        options: [
+                            { id: "a", text: "£7 500" },
+                            { id: "b", text: "£6 250" },
+                            { id: "c", text: "£8 000" },
+                            { id: "d", text: "£9 000" }
+                        ],
+                        correct: "a",
+                        explanation: "Multiply the ratio by 6: 6 : 4 : 5. C = 5 parts = £2 500, so 1 part = £500. Total = 15 parts = £7 500.",
+                        points: 4
+                    },
+                    {
+                        id: "m17",
+                        text: "The graph shows the velocity of a car over 60 seconds. It consists of straight lines joining (0, 0), (10, 16), (40, 16) and (60, 0), where the x-axis is time in seconds and the y-axis is velocity in m/s. What is the average speed of the car over the whole journey?\n<img src=\"q17.png\" alt=\"Diagram\" class=\"my-4 max-w-full rounded shadow-sm\">",
+                        options: [
+                            { id: "a", text: "10 m/s" },
+                            { id: "b", text: "12 m/s" },
+                            { id: "c", text: "13.5 m/s" },
+                            { id: "d", text: "16 m/s" }
+                        ],
+                        correct: "b",
+                        explanation: "Distance = area under the graph: triangle $1/2 \\times 10 \\times 16 = 80$, rectangle $30 \\times 16 = 480$, triangle $1/2 \\times 20 \\times 16 = 160$. Total = 720 m. Average speed = $720/60 = 12$ m/s.",
+                        points: 4
+                    },
+                    {
+                        id: "m18",
+                        text: "PQRS is a square. Sides PQ and RS are each increased by 30%. Sides QR and PS are each decreased by 60%. By what percentage does the area decrease?",
+                        options: [
+                            { id: "a", text: "48%" },
+                            { id: "b", text: "52%" },
+                            { id: "c", text: "30%" },
+                            { id: "d", text: "22%" }
+                        ],
+                        correct: "a",
+                        explanation: "Let the side = 1. New sides: 1.3 and 0.4. New area = $1.3 \\times 0.4 = 0.52$. Decrease = $1 - 0.52 = 0.48 = 48\\%$.",
+                        points: 3
+                    },
+                    {
+                        id: "m19",
+                        text: "The mass of an atom of a certain element is $5 \\times 10^{-26}$ kg. What is the mass, in milligrams, of 6 million atoms of this element?",
+                        options: [
+                            { id: "a", text: "$3 \\times 10^{-19}$" },
+                            { id: "b", text: "$3 \\times 10^{-25}$" },
+                            { id: "c", text: "$3 \\times 10^{-13}$" },
+                            { id: "d", text: "$3 \\times 10^{-7}$" }
+                        ],
+                        correct: "c",
+                        explanation: "6 million = $6 \\times 10^6$. Mass in kg = $6 \\times 10^6 \\times 5 \\times 10^{-26} = 30 \\times 10^{-20} = 3 \\times 10^{-19}$ kg. 1 kg = $10^6$ mg, so mass = $3 \\times 10^{-19} \\times 10^6 = 3 \\times 10^{-13}$ mg.",
+                        points: 3
+                    },
+                    {
+                        id: "m20",
+                        text: "A 120° wedge is cut from a paper circle of radius 15 cm and the remaining paper is folded into a cone (no overlap). What is the height of this cone, in cm?",
+                        options: [
+                            { id: "a", text: "$5\\sqrt{13}$" },
+                            { id: "b", text: "$10\\sqrt{2}$" },
+                            { id: "c", text: "12" },
+                            { id: "d", text: "$5\\sqrt{5}$" }
+                        ],
+                        correct: "d",
+                        explanation: "Remaining sector angle = 240°. Arc length = $(240/360) \\times 2\\pi \\times 15 = 20\\pi$. This becomes the base circumference: $2\\pi r = 20\\pi \\rightarrow r = 10$. Slant height = 15. Height $h = \\sqrt{15^2 - 10^2} = \\sqrt{125} = 5\\sqrt{5}$.",
+                        points: 5
+                    },
+                    {
+                        id: "m21",
+                        text: "The cross-section of a triangular prism is an equilateral triangle with side $4x$ cm. The length of the prism is $d$ cm. The total surface area of the prism is $T$ cm², and the volume of the prism is $T$ cm³. Which expression gives $d$ in terms of $x$?",
+                        options: [
+                            { id: "a", text: "$2x/(x - \\sqrt{3})$" },
+                            { id: "b", text: "$2x/(x + \\sqrt{3})$" },
+                            { id: "c", text: "$x/(x - \\sqrt{3})$" },
+                            { id: "d", text: "$4x/(x - \\sqrt{3})$" }
+                        ],
+                        correct: "a",
+                        explanation: "Triangle area = $(\\sqrt{3}/4)(4x)^2 = 4\\sqrt{3}x^2$. Surface area $T = 2 \\times 4\\sqrt{3}x^2 + 3 \\times 4x \\times d = 8\\sqrt{3}x^2 + 12xd$. Volume = $4\\sqrt{3}x^2 \\times d$. Set equal: $4\\sqrt{3}x^2d = 8\\sqrt{3}x^2 + 12xd \\rightarrow d(4\\sqrt{3}x^2 - 12x) = 8\\sqrt{3}x^2 \\rightarrow d = 8\\sqrt{3}x^2 / (4x(\\sqrt{3}x - 3)) = 2\\sqrt{3}x/(\\sqrt{3}x - 3)$. Divide by $\\sqrt{3}$: $d = 2x/(x - \\sqrt{3})$.",
+                        points: 9
+                    },
+                    {
+                        id: "m22",
+                        text: "The graph of $f(x) = x^3$ is translated 5 units down and 2 units to the left, and then reflected over the x-axis. If the resulting graph is $g(x)$, then $g(-1)$ is equal to",
+                        options: [
+                            { id: "a", text: "-4" },
+                            { id: "b", text: "6" },
+                            { id: "c", text: "4" },
+                            { id: "d", text: "-6" }
+                        ],
+                        correct: "c",
+                        explanation: "After translation: $(x + 2)^3 - 5$. Reflection over the x-axis changes the sign: $g(x) = -[(x + 2)^3 - 5]$. $g(-1) = -[1^3 - 5] = -(-4) = 4$.",
+                        points: 4
+                    },
+                    {
+                        id: "m23",
+                        text: "The equation $x(ax - 6) - 2x^2 + 3 = 0$ has no real roots. What is the smallest possible integer value of a?",
+                        options: [
+                            { id: "a", text: "5" },
+                            { id: "b", text: "6" },
+                            { id: "c", text: "7" },
+                            { id: "d", text: "4" }
+                        ],
+                        correct: "b",
+                        explanation: "Expand: $(a - 2)x^2 - 6x + 3 = 0$. No real roots $\\rightarrow D < 0$: $36 - 12(a - 2) < 0 \\rightarrow 60 - 12a < 0 \\rightarrow a > 5$. Smallest integer: 6.",
+                        points: 5
+                    },
+                    {
+                        id: "m24",
+                        text: "In the formula $P = r^2t/8$, $r = 4 \\times 10^{-3}$ and $t = 2.5 \\times 10^4$. Calculate P. Leave your answer in standard form.",
+                        options: [
+                            { id: "a", text: "$5 \\times 10^{-1}$" },
+                            { id: "b", text: "$5 \\times 10^{-3}$" },
+                            { id: "c", text: "$50 \\times 10^{-3}$" },
+                            { id: "d", text: "$5 \\times 10^{-2}$" }
+                        ],
+                        correct: "d",
+                        explanation: "$r^2 = 16 \\times 10^{-6}$. $r^2t = 16 \\times 2.5 \\times 10^{-6+4} = 40 \\times 10^{-2} = 0.4$. $P = 0.4/8 = 0.05 = 5 \\times 10^{-2}$.",
+                        points: 3
+                    },
+                    {
+                        id: "m25",
+                        text: "In triangle PQR, $\\angle P = 2x°$ and $\\angle Q = (x + 5)°$. The side PR is extended to a point S, and $\\angle QRS = y°$. In terms of x, y is given by",
+                        options: [
+                            { id: "a", text: "3x" },
+                            { id: "b", text: "3x + 5" },
+                            { id: "c", text: "175 - 3x" },
+                            { id: "d", text: "185 - 3x" }
+                        ],
+                        correct: "b",
+                        explanation: "The exterior angle of a triangle equals the sum of the two opposite interior angles: $y = 2x + (x + 5) = 3x + 5$.",
+                        points: 2
+                    },
+                    {
+                        id: "m26",
+                        text: "Convert 12 m/s to km/h.",
+                        options: [
+                            { id: "a", text: "43.2" },
+                            { id: "b", text: "40.2" },
+                            { id: "c", text: "33.3" },
+                            { id: "d", text: "46.8" }
+                        ],
+                        correct: "a",
+                        explanation: "12 m/s = 12 $\\times$ 3600 m/h = 43 200 m/h = 43.2 km/h. (Multiply by 3.6).",
+                        points: 2
+                    },
+                    {
+                        id: "m27",
+                        text: "In a group of five friends, the sums of the ages of each group of four of them are 72, 75, 78, 80 and 83. What is the age of the youngest friend?",
+                        options: [
+                            { id: "a", text: "12" },
+                            { id: "b", text: "17" },
+                            { id: "c", text: "14" },
+                            { id: "d", text: "15" }
+                        ],
+                        correct: "c",
+                        explanation: "Adding all five sums counts each friend 4 times: $72 + 75 + 78 + 80 + 83 = 388$, so the total of all ages = $388/4 = 97$. The group of four with the largest sum (83) excludes the youngest friend, so youngest = $97 - 83 = 14$.",
+                        points: 5
+                    },
+                    {
+                        id: "m28",
+                        text: "Evaluate: $(-2/3)^{-2} \\times (3/2)^3 \\div (9/4)^2$",
+                        options: [
+                            { id: "a", text: "2/3" },
+                            { id: "b", text: "9/8" },
+                            { id: "c", text: "4/9" },
+                            { id: "d", text: "3/2" }
+                        ],
+                        correct: "d",
+                        explanation: "$(-2/3)^{-2} = (-3/2)^2 = 9/4$. $(3/2)^3 = 27/8$. Product = $243/32$. $(9/4)^2 = 81/16$. Division: $243/32 \\times 16/81 = 3/2$.",
+                        points: 4
+                    },
+                    {
+                        id: "m29",
+                        text: "The value of $\\sqrt{37 - 12\\sqrt{7}}$ is equivalent to",
+                        options: [
+                            { id: "a", text: "$3 - 2\\sqrt{7}$" },
+                            { id: "b", text: "$2\\sqrt{7} - 3$" },
+                            { id: "c", text: "$3 + 2\\sqrt{7}$" },
+                            { id: "d", text: "$6 - \\sqrt{7}$" }
+                        ],
+                        correct: "b",
+                        explanation: "Look for $(p - q\\sqrt{7})^2 = p^2 + 7q^2 - 2pq\\sqrt{7}$. Need $2pq = 12$ and $p^2 + 7q^2 = 37 \\rightarrow p = 3, q = 2$ gives $9 + 28 = 37$. So $\\sqrt{37 - 12\\sqrt{7}} = |3 - 2\\sqrt{7}| = 2\\sqrt{7} - 3$, because $2\\sqrt{7} \\approx 5.29 > 3$ and a square root must be positive.",
+                        points: 5
+                    },
+                    {
+                        id: "m30",
+                        text: "Solve: $0.5(3) + 0.(27)$ (recurring digits are in brackets)",
+                        options: [
+                            { id: "a", text: "133/165" },
+                            { id: "b", text: "137/165" },
+                            { id: "c", text: "41/50" },
+                            { id: "d", text: "80/99" }
+                        ],
+                        correct: "a",
+                        explanation: "$0.5(3) = 0.5 + 0.0333\\dots = 1/2 + 1/30 = 16/30 = 8/15$. $0.(27) = 27/99 = 3/11$. Sum = $8/15 + 3/11 = (88 + 45)/165 = 133/165$.",
+                        points: 5
                     }
                 ]
             },
